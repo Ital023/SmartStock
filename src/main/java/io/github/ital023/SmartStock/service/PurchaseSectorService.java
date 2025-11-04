@@ -6,7 +6,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class PurchaseSectorService {
 
-    public boolean sendPurchaseRequest(CsvStockItem item, Integer quantity) {
+    private final AuthService authService;
+
+    public PurchaseSectorService(AuthService authService) {
+        this.authService = authService;
+    }
+
+    public boolean sendPurchaseRequest(CsvStockItem item,
+                                       Integer purchaseQuantity) {
+
+        var token = authService.getToken();
 
 
 

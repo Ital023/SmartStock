@@ -10,8 +10,11 @@ public class SmartStockService {
 
     private final ReportService reportService;
 
-    public SmartStockService(ReportService reportService) {
+    private final PurchaseSectorService purchaseSectorService;
+
+    public SmartStockService(ReportService reportService, PurchaseSectorService purchaseSectorService) {
         this.reportService = reportService;
+        this.purchaseSectorService = purchaseSectorService;
     }
 
     public void start(String reportPath) {
@@ -21,6 +24,7 @@ public class SmartStockService {
             items.forEach(item -> {
                 if(item.getQuantity() < item.getReorderThreshold()) {
                     var reorderQuantity = calculateReorderQuantity(item);
+                    purchaseSectorService.sendPurchaseRequest(item, reorderQuantity);
                 }
             });
 
